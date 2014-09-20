@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Install and configure Apache Web Server
+sudo apt-get install apache2
+sudo apt-get install libapache2-mod-wsgi
+sudo cp sites-enabled/docent-learner-apache.conf /etc/apache2/sites-enabled/
+
+# Make directories, copy files, and check permissions
+sudo mkdir /var/www/html/images
+sudo cp images/* /var/www/html/images
+
+sudo mkdir /var/www/docent-learner
+sudo cp images.py /var/www/docent-learner
