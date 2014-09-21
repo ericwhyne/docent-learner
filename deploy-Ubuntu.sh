@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#TODO: make apache restart optional
+
 # Make directories, copy files, and check permissions
 sudo cp sites-enabled/docent-learner-apache.conf /etc/apache2/sites-enabled/
 
@@ -7,13 +9,21 @@ sudo mkdir /var/www/html/images
 sudo cp images/* /var/www/html/images
 sudo chmod a+rw /var/www/html/images
 
+# Copy python source
 sudo mkdir /var/www/docent-learner
-sudo cp src/images.py /var/www/docent-learner
+sudo cp src/* /var/www/docent-learner
 
-sudo mkdir /var/www/docent-learner/config
-sudo cp config/* /var/www/docent-learner/config/
+# Copy var files (stuff that changes during runtime)
+sudo mkdir /var/www/html/var/
+sudo cp -r var/* /var/www/html/var
 
+# Copy static files (stuff that should never change)
+sudo mkdir /var/www/html/static/
+sudo cp -r static/* /var/www/html/static
+
+# Copy html
 sudo rm /var/www/html/index.html
-sudo cp src/index.html /var/www/html/
+sudo cp html/index.html /var/www/html/
 
-sudo service apache2 restart
+# Restart apache after deploying .conf file
+#sudo service apache2 restart

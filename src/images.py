@@ -6,6 +6,14 @@ import re
 imagesdir = "/var/www/html/images/"
 docentlearnerdir = "/var/www/docent-learner/"
 
+html_header = """
+<html>
+<title>Doccent Learner</title>
+<link rel="stylesheet" type="text/css" href="/static/style.css">
+
+"""
+
+
 def random_image_file():
   files = [f for f in os.listdir(imagesdir) if re.match(r'.*\.(jpg|jpeg|png|gif)$', f,  re.IGNORECASE)]
   jsonfiles = [f for f in os.listdir(imagesdir) if re.match(r'.*\.json$', f,  re.IGNORECASE)]
@@ -27,7 +35,7 @@ def application(environ, start_response):
   while imagefilename == form_data.getvalue('tagged_image') and files_left > 1:
     (imagefilename,files_left) = random_image_file()
 
-  form_file = open(docentlearnerdir + 'config/image_questions.form', 'r')
+  form_file = open('/var/www/html/var/config/image_questions.form', 'r')
   form_questions = form_file.read()
   form = """
     Please help tag this image.<br>
@@ -47,9 +55,9 @@ def application(environ, start_response):
   imagedisplay = "<br><center><image src='/images/" + imagefilename + "' height=400><br><br></center>"
   html = ""
   if (files_left == 1 and len(form_data) > 1) or imagefilename == "" :
-    html = "<html>All the Images have been tagged!</html"
+    html = html_header + "All the Images have been tagged!</html>"
   else:
-    html = "<html><table><tr><td>" + form + "</td><td>" + imagedisplay + "</td></tr></table</html>"
+    html = html_header + "<table><tr><td>" + form + "</td><td>" + imagedisplay + "</td></tr></table</html>"
 
   if len(form_data) > 1:
     datafilename = form_data.getvalue('tagged_image') + ".json"

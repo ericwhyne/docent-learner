@@ -1,0 +1,4 @@
+<div class="squaredOne"><label><input type="checkbox" name="is_dog" value="true">This is a picture of a dog(s)</label></div><br>
+<div class="squaredOne"><label><input type="checkbox" name="has_dog_with_collar" value="true">A dog is wearing a collar</label></div><br>
+<div class="squaredOne"><label><input type="checkbox" name="has_labrador" value="true">A dog is a labrador</label></div><br>
+Notes: <input type="text" name="notes"><br>

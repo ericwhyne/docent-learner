@@ -15,7 +15,7 @@ def application(environ, start_response):
     value = form_data.getvalue(key)
     data += "\"" + key + "\":\"" + value + "\","
 
-  html = "<h2>Docent Learner Administration</h2>"
+  html = "<h2>Docent Learner Content Administration</h2>"
 
 
   start_response(status, response_headers)
