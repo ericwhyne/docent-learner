@@ -3,6 +3,8 @@ import os
 import random
 import re
 
+#TODO: Enforce html entity encoding to mitigate XSS attacks
+
 imagesdir = "/var/www/html/images/"
 docentlearnerdir = "/var/www/docent-learner/"
 
@@ -12,7 +14,6 @@ html_header = """
 <link rel="stylesheet" type="text/css" href="/static/style.css">
 
 """
-
 
 def random_image_file():
   files = [f for f in os.listdir(imagesdir) if re.match(r'.*\.(jpg|jpeg|png|gif)$', f,  re.IGNORECASE)]
@@ -30,7 +31,7 @@ def application(environ, start_response):
   start_response(status, response_headers)
   (imagefilename,files_left) = random_image_file()
   if imagefilename == "":
-    return ["<html>All the images have been tagged!</html>"]
+    return ["<html>All the content has been tagged!</html>"]
   form_data = cgi.FieldStorage(environ=environ, fp=environ['wsgi.input'])
   while imagefilename == form_data.getvalue('tagged_image') and files_left > 1:
     (imagefilename,files_left) = random_image_file()
@@ -38,7 +39,7 @@ def application(environ, start_response):
   form_file = open('/var/www/html/var/config/image_questions.form', 'r')
   form_questions = form_file.read()
   form = """
-    Please help tag this image.<br>
+    Please help tag this image.<br><br>
     <form action="/docent-learner/images.py" method="post">
     <input type="hidden" name="tagged_image" value="%s">
     %s
@@ -52,7 +53,7 @@ def application(environ, start_response):
     data += "\"" + key + "\":\"" + value + "\","
   data = data[:-1]
   data += "}\n"
-  imagedisplay = "<br><center><image src='/images/" + imagefilename + "' height=400><br><br></center>"
+  imagedisplay = "<br><center><table border=2 cellpadding=10><tr><td><image src='/images/" + imagefilename + "' height=400></td></tr></table><br><br></center>"
   html = ""
   if (files_left == 1 and len(form_data) > 1) or imagefilename == "" :
     html = html_header + "All the Images have been tagged!</html>"

@@ -9,9 +9,17 @@ sudo mkdir /var/www/html/images
 sudo cp images/* /var/www/html/images
 sudo chmod a+rw /var/www/html/images
 
+sudo mkdir /var/www/html/textselect
+sudo cp textselect/* /var/www/html/textselect
+sudo chmod a+rw /var/www/html/textselect
+
 # Copy python source
 sudo mkdir /var/www/docent-learner
 sudo cp src/* /var/www/docent-learner
+
+# Set up Admin directories
+sudo mkdir /var/www/html/uploads
+sudo chmod a+rw /var/www/html/uploads
 
 # Copy var files (stuff that changes during runtime)
 sudo mkdir /var/www/html/var/
