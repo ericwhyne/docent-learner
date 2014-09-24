@@ -1,54 +1,52 @@
 import cgi
-import cgitb; cgitb.enable()
-import os
-import random
 import re
-import tempfile
+import json
 
-uploadsdir = "/var/www/html/uploads/"
-docentlearnerdir = "/var/www/docent-learner/"
+configfile = "/var/www/html/docent-learner/var/config/config.json"
 
 def application(environ, start_response):
   status = '200 OK'
   response_headers = [('Content-type', 'text/html')]
-
-  temp_file = tempfile.TemporaryFile()
-  temp_file.write(environ['wsgi.input'].read()) # or use buffered read()
-  temp_file.seek(0)
-
-  form = cgi.FieldStorage(environ=environ, fp=temp_file)
-  data = ""
-  for key in form:
-    value = form.getvalue(key)
-    data += "\"" + key + "\":\"" + value + "\","
-  message = data
-
+  message = ""
+  config = {}
   try:
-        fileitem = form['file']
-  except KeyError:
-        fileitem = None
+    config_file_data = open(configfile, 'r').read()
+    config_records = json.loads(config_file_data)
+    config = config_records
+    message += str(config) + "<br>"
+  except Exception, error:
+    message += "Config file error: " + str(error) + "<br>"
 
-  if fileitem and fileitem.file:
-        fn = os.path.basename(fileitem.filename)
-        with open(fn, 'wb') as f:
-            data = fileitem.file.read(1024)
-            while data:
-                f.write(data)
-                data = fileitem.file.read(1024)
+  form_data = cgi.FieldStorage(environ=environ, fp=environ['wsgi.input'])
+  for key in form_data:
+    value = form_data.getvalue(key)
+    config[key] = value
 
-            message = 'The file "' + fn + '" was uploaded successfully'
+  if(len(form_data)>1):
+    try:
+      config_file = open(configfile, 'w')
+      config_file.write(json.dumps(config))
+      config_file.close()
+      message += "Writing config file.<br>"
+    except:
+      message += "Unable to write config file.<br>"
+  imagequestions = ""
+  try: 
+    imagequestions = config['imagequestions']
+  except:
+    message += "Configuration was incomplete.<br>"
 
-  else :
-        message = 'please upload a file.'
+  message += str(config)
 
-  html = """<h2>Docent Learner Administration</h2>
-   <form action="/docent-learner/admin.py" method="post">
-    <input type="hidden" name="test" value="bleh">
-    <input type="file" name="file">
-    <input type="submit" value="Submit">
-    </form>
-
-  """
-  html += message
+  html = "<h2>Docent Learner Administration</h2>"
+  form = "<form action=\"/docent-learner/dl/admin.py\" method=\"post\">"
+  form += "<input type=\"hidden\" name=\"test\" value=\"bleh\">"
+  form += "<textarea name='imagequestions'>" + imagequestions + "</textarea>"
+  form += "<input type=\"submit\" value=\"Save\"><br>"
+  form += "</form>"
+  html += form
+  html += "<br><br>" + message
+  html += "</html>" 
   start_response(status, response_headers)
+
   return [html]

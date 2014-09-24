@@ -58,7 +58,7 @@ def application(environ, start_response):
   if (files_left == 1 and len(form_data) > 1) or imagefilename == "" :
     html = html_header + "All the Images have been tagged!</html>"
   else:
-    html = html_header + "<table><tr><td>" + form + "</td><td>" + imagedisplay + "</td></tr></table</html>"
+    html = html_header + "<table class='rounded'><tr><td width=\"600\">" + form + "</td><td>" + imagedisplay + "</td></tr></table</html>"
 
   if len(form_data) > 1:
     datafilename = form_data.getvalue('tagged_image') + ".json"
