@@ -2,36 +2,38 @@
 
 #TODO: make apache restart optional
 
+basedir="/var/www/html/docent-learner"
+imagesdir="images"
+textselectdir="textselect"
+pydir="dl"
+
+sudoe mkdir $basedir
+
 # Make directories, copy files, and check permissions
 sudo cp sites-enabled/docent-learner-apache.conf /etc/apache2/sites-enabled/
 
-sudo mkdir /var/www/html/images
-sudo cp images/* /var/www/html/images
-sudo chmod a+rw /var/www/html/images
+sudo mkdir $basedir/$imagesdir
+sudo cp images/* $basedir/$imagesdir
+sudo chmod a+rw $basedir/$imagesdir
 
-sudo mkdir /var/www/html/textselect
-sudo cp textselect/* /var/www/html/textselect
-sudo chmod a+rw /var/www/html/textselect
+sudo mkdir $basedir/$textselectdir
+sudo cp textselect/* $basedir/$textselectdir
+sudo chmod a+rw $basedir/$textselectdir
 
 # Copy python source
-sudo mkdir /var/www/docent-learner
-sudo cp src/* /var/www/docent-learner
-
-# Set up Admin directories
-sudo mkdir /var/www/html/uploads
-sudo chmod a+rw /var/www/html/uploads
+sudo mkdir $basedir/$pydir
+sudo cp src/* $basedir/$pydir
 
 # Copy var files (stuff that changes during runtime)
-sudo mkdir /var/www/html/var/
-sudo cp -r var/* /var/www/html/var
+sudo mkdir $basedir/var/
+sudo cp -r var/* $basedir/var/
 
 # Copy static files (stuff that should never change)
-sudo mkdir /var/www/html/static/
-sudo cp -r static/* /var/www/html/static
+sudo mkdir $basedir/static/
+sudo cp -r static/* $basedir/static/
 
 # Copy html
-sudo rm /var/www/html/index.html
-sudo cp html/index.html /var/www/html/
+sudo cp -r html/ $basedir
 
 # Restart apache after deploying .conf file
 #sudo service apache2 restart

@@ -5,13 +5,13 @@ import re
 
 #TODO: Enforce html entity encoding to mitigate XSS attacks
 
-textselectdir = "/var/www/html/textselect/"
-docentlearnerdir = "/var/www/docent-learner/"
+textselectdir = "/var/www/html/docent-learner/textselect/"
+docentlearnerdir = "/var/www/docent-learner/dl/"
 
 html_header = """
 <html>
 <title>Doccent Learner</title>
-<link rel="stylesheet" type="text/css" href="/static/style.css">
+<link rel="stylesheet" type="text/css" href="/docent-learner/static/style.css">
 <script>
 var t = '';
 function gText(e) {
@@ -51,12 +51,12 @@ def application(environ, start_response):
   form = """
     Please highlight the subject of the text.<br>
     <br>
-    <form action="/docent-learner/textselect.py" method="post">
+    <form action="/docent-learner/dl/textselect.py" method="post">
     <input type="hidden" name="tagged_text_filename" value="%s">
     <input type="hidden" name="selected_text" id='input'>
     Notes:<textarea name="notes" cols="40" rows="5"></textarea><br>
     <br><br>
-    <center><input type="image" src="/static/submit.png" alt="Submit" width="100" height="100"></center>
+    <center><input type="image" src="/docent-learner/static/submit.png" alt="Submit" width="100" height="100"></center>
     </form>
     <br> Random text file shown is:<br>  %s<br>
   """ % (currentfilename, currentfilename)

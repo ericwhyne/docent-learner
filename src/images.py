@@ -5,13 +5,13 @@ import re
 
 #TODO: Enforce html entity encoding to mitigate XSS attacks
 
-imagesdir = "/var/www/html/images/"
-docentlearnerdir = "/var/www/docent-learner/"
+imagesdir = "/var/www/html/docent-learner/images/"
+docentlearnerdir = "/var/www/docent-learner/dl/"
 
 html_header = """
 <html>
 <title>Doccent Learner</title>
-<link rel="stylesheet" type="text/css" href="/static/style.css">
+<link rel="stylesheet" type="text/css" href="/docent-learner/static/style.css">
 
 """
 
@@ -36,11 +36,11 @@ def application(environ, start_response):
   while imagefilename == form_data.getvalue('tagged_image') and files_left > 1:
     (imagefilename,files_left) = random_image_file()
 
-  form_file = open('/var/www/html/var/config/image_questions.form', 'r')
+  form_file = open('/var/www/html/docent-learner/var/config/image_questions.form', 'r')
   form_questions = form_file.read()
   form = """
     Please help tag this image.<br><br>
-    <form action="/docent-learner/images.py" method="post">
+    <form action="/docent-learner/dl/images.py" method="post">
     <input type="hidden" name="tagged_image" value="%s">
     %s
     <input type="submit" value="Submit">
@@ -53,7 +53,7 @@ def application(environ, start_response):
     data += "\"" + key + "\":\"" + value + "\","
   data = data[:-1]
   data += "}\n"
-  imagedisplay = "<br><center><table border=2 cellpadding=10><tr><td><image src='/images/" + imagefilename + "' height=400></td></tr></table><br><br></center>"
+  imagedisplay = "<br><center><table border=2 cellpadding=10><tr><td><image src='/docent-learner/images/" + imagefilename + "' height=400></td></tr></table><br><br></center>"
   html = ""
   if (files_left == 1 and len(form_data) > 1) or imagefilename == "" :
     html = html_header + "All the Images have been tagged!</html>"
