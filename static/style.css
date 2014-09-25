@@ -3,6 +3,11 @@
     border: 2px solid #a1a1a1;
     padding: 10px 40px; 
     background: #dddddd;
-    width: 300px;
     border-radius: 25px;
+}
+.imagetable {
+  border: 2px solid #a1a1a1;
+  padding 70px 70px;
+  background: #ffffff;
+  border-radius:25px;
 }

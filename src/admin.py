@@ -6,12 +6,13 @@ configfile = "/var/www/html/docent-learner/var/config/config.json"
 
 def application(environ, start_response):
   status = '200 OK'
-  response_headers = [('Content-type', 'text/html')]
+  response_headers = [('Content-type', 'text/html; charset=utf-8')]
   message = ""
   config = {}
   try:
-    config_file_data = open(configfile, 'r').read()
-    config_records = json.loads(config_file_data)
+    config_file = open(configfile, 'r')
+    config_records = json.load(config_file)
+    config_file.close()
     config = config_records
     message += str(config) + "<br>"
   except Exception, error:
@@ -22,23 +23,23 @@ def application(environ, start_response):
     value = form_data.getvalue(key)
     config[key] = value
 
-  if(len(form_data)>1):
+  if(len(form_data) > 1):
     try:
       config_file = open(configfile, 'w')
-      config_file.write(json.dumps(config))
+      json.dump(config, config_file)
       config_file.close()
       message += "Writing config file.<br>"
     except:
       message += "Unable to write config file.<br>"
   imagequestions = ""
   try: 
-    imagequestions = config['imagequestions']
+    imagequestions = str(config['imagequestions'])
   except:
     message += "Configuration was incomplete.<br>"
 
   message += str(config)
 
-  html = "<h2>Docent Learner Administration</h2>"
+  html = "<html><h2>Docent Learner Administration</h2>"
   form = "<form action=\"/docent-learner/dl/admin.py\" method=\"post\">"
   form += "<input type=\"hidden\" name=\"test\" value=\"bleh\">"
   form += "<textarea name='imagequestions'>" + imagequestions + "</textarea>"
