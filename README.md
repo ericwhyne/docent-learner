@@ -3,8 +3,8 @@ docent-learner
 
 Docent-learner is a web interface which statelessly and randomly traverses digital collections of images or text and asks users to answer questions or tag the content. This was built and designed for quickly creating domain specific training sets for machine learning tasks. It was written in a few hours during a DARPA hackathon when it was discovered that there was no good free software that did this. The goal of this project is to make deploying functionality for creating training data sets simple, scalable, and provide a clutter-free interface that allows for fast tagging by many users.
 
-Docent - _A person who acts as a guide, typically on a voluntary basis, in a museum, art gallery, or zoo._
-Learner - _A person who is learning a subject or skill._
+* Docent - _A person who acts as a guide, typically on a voluntary basis, in a museum, art gallery, or zoo._
+* Learner - _A person who is learning a subject or skill._
 
 Capabilities and road map:
 - Image tagging is currently supported. 
