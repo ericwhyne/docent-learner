@@ -36,4 +36,4 @@ sudo cp -r static/* "$basedir/static/"
 sudo cp -r html/ "$basedir"
 
 # Restart apache after deploying .conf file
-#sudo service apache2 restart
+sudo service apache2 restart
