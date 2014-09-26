@@ -15,22 +15,29 @@ Capabilities and road map:
 The easiest way to get started with Docent Learner is to use Vagrant. For more information on Vagrant go to https://www.vagrantup.com/
 
 Entering these commands into a machine with Vagrant will result in a fully functional Docent-Learner install:
-     git clone https://github.com/ericwhyne/docent-learner.git
-     cd docent-learner
-     vagrant up
-
+```
+git clone https://github.com/ericwhyne/docent-learner.git
+cd docent-learner
+vagrant up
+```
 Then point your browser at your computer: http://127.0.0.1/docent-learner/dl/images.py
 
 To add your own images and tags, ssh into the running Vagrant machine:
-     vagrant ssh
+```
+vagrant ssh
+```
 Then delete all files in /var/www/html/docent-learner/images and replace them with your own images.
 Modify this file and enter your own form questions:
-     sudo vim /var/www/html/docent-learner/var/config/image_questions.form
+```
+sudo vim /var/www/html/docent-learner/var/config/image_questions.form
+```
 
 As your images become tagged, a json file will be written to disk for each image. To aggregate these results into a single json file, run these commands.
-     cat *.json | while read a; do echo $a, >> aggregate.json; done
-     sed -i '1s/^/[\n /' aggregate.json
-     sed -i '$s/,$/]/' aggregate.json
+```
+cat *.json | while read a; do echo $a, >> aggregate.json; done
+sed -i '1s/^/[\n /' aggregate.json
+sed -i '$s/,$/]/' aggregate.json
+```
 
 As currently configured, Docent Learner will only allow an image to be tagged once however if a user clicks the back button on their browser to re-tag an image it will result in two records in the file's json file. How these redundant tags are deconflicted is up to the developer using them during the creation of their machine learning model.
 
