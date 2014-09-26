@@ -11,6 +11,7 @@ Capabilities and road map:
 - A text selection interface is under development and mostly complete.
 - Integration with HBase, Impala, and S3 is planned.
 - The ability to refine and train machine learning models (rather than just tag data) is also potentially a part of this project, however will be avoided if it adds too much complexity. 
+- Eventually all capabilities should be controlled through the web interface. A rudimentary data binding for configuration modification is mostly written.
 
 The easiest way to get started with Docent Learner is to use Vagrant. For more information on Vagrant go to https://www.vagrantup.com/
 
