@@ -21,7 +21,7 @@ git clone https://github.com/ericwhyne/docent-learner.git
 cd docent-learner
 vagrant up
 ```
-Then point your browser at your computer: http://127.0.0.1/docent-learner/dl/images.py
+Then point your browser at your computer: http://127.0.0.1:8080/docent-learner/dl/images.py
 
 To add your own images and tags, ssh into the running Vagrant machine:
 ```
