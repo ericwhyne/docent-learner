@@ -53,12 +53,12 @@ def application(environ, start_response):
     data += "\"" + key + "\":\"" + value + "\","
   data = data[:-1]
   data += "}\n"
-  imagedisplay = "<br><center><table border=2 cellpadding=10><tr><td><image src='/docent-learner/images/" + imagefilename + "' height=400></td></tr></table><br><br></center>"
+  imagedisplay = "<br><center><table class='imagetable' cellpadding='60'><tr><td><image src='/docent-learner/images/" + imagefilename + "' height=400></td></tr></table><br><br></center>"
   html = ""
   if (files_left == 1 and len(form_data) > 1) or imagefilename == "" :
     html = html_header + "All the Images have been tagged!</html>"
   else:
-    html = html_header + "<table class='rounded'><tr><td width=\"600\">" + form + "</td><td>" + imagedisplay + "</td></tr></table</html>"
+    html = html_header + "<table class='rounded'><tr><td width=\"300\">" + form + "</td><td>" + imagedisplay + "</td></tr></table</html>"
 
   if len(form_data) > 1:
     datafilename = form_data.getvalue('tagged_image') + ".json"
