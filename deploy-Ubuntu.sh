@@ -27,6 +27,7 @@ sudo cp src/* "$pydir"
 # Copy var files (stuff that changes during runtime)
 sudo mkdir "$basedir/var/"
 sudo cp -r var/* "$basedir/var/"
+sudo chmod a+rw "$basedir/var/config/"
 
 # Copy static files (stuff that should never change)
 sudo mkdir "$basedir/static/"

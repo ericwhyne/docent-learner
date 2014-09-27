@@ -25,7 +25,7 @@ def application(environ, start_response):
   if(len(form_data)>1):
     try:
       config_file = open(configfile, 'w')
-      config_file.write(json.dumps(config))
+      config_file.write(unicode(json.dumps(config,ensure_ascii=False)))
       config_file.close()
       message += "Writing config file.<br>"
     except:
