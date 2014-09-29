@@ -1,4 +1,5 @@
 #!/bin/bash
+# This file contains stuff we can do every time we refine docent-learner code. (This is in contrast to the stuff we want to do only once, which is in the bootstrap file.)
 
 #TODO: make apache restart optional
 
@@ -22,7 +23,7 @@ sudo chmod a+rw "$basedir/$textselectdir"
 
 # Copy python source
 sudo mkdir "$pydir"
-sudo cp src/* "$pydir"
+sudo cp -r src/* "$pydir"
 
 # Copy var files (stuff that changes during runtime)
 sudo mkdir "$basedir/var/"
@@ -34,7 +35,7 @@ sudo mkdir "$basedir/static/"
 sudo cp -r static/* "$basedir/static/"
 
 # Copy html
-sudo cp -r html/ "$basedir"
+sudo cp -r html/* "$basedir"
 
 # Restart apache after deploying .conf file
 sudo service apache2 restart
