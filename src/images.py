@@ -2,11 +2,14 @@ import cgi
 import os
 import random
 import re
+import json
 
 #TODO: Enforce html entity encoding to mitigate XSS attacks
 
 imagesdir = "/var/www/html/docent-learner/images/"
 docentlearnerdir = "/var/www/docent-learner/dl/"
+configfile = "/var/www/html/docent-learner/var/config/config.json"
+
 
 html_header = """
 <html>
@@ -36,8 +39,14 @@ def application(environ, start_response):
   while imagefilename == form_data.getvalue('tagged_image') and files_left > 1:
     (imagefilename,files_left) = random_image_file()
 
-  form_file = open('/var/www/html/docent-learner/var/config/image_questions.form', 'r')
-  form_questions = form_file.read()
+  #form_file = open('/var/www/html/docent-learner/var/config/image_questions.form', 'r')
+  #form_questions = form_file.read()
+  #TODO: This will read config file every time user loads the app. Probably better to cache this and just update the cache on config changes rather than disk.
+  config_file = open(configfile, 'r')
+  config = json.load(config_file)
+  config_file.close()
+  form_questions = str(config['imagequestions'])
+
   form = """
     Please help tag this image.<br><br>
     <form action="/docent-learner/dl/images.py" method="post">
@@ -58,7 +67,18 @@ def application(environ, start_response):
   if (files_left == 1 and len(form_data) > 1) or imagefilename == "" :
     html = html_header + "All the Images have been tagged!</html>"
   else:
-    html = html_header + "<table class='rounded'><tr><td width=\"300\">" + form + "</td><td>" + imagedisplay + "</td></tr></table</html>"
+    html = html_header + "<table class='rounded'><tr><td width=\"300\">" + form + "</td><td>" + imagedisplay + "</td></tr></table>"
+
+  html += """
+    <table cellpadding='10'>
+      <tr>
+        <td><h5>Docent-learner | <a href='/docent-learner/dl/admin/admin.py'>Admin</a> this instance. | This tool is open source, get help or help make it better on <a href='https://github.com/ericwhyne/docent-learner'>github</a>.</h5></td>
+      </tr>
+    </table>
+  """
+
+
+  html += "</html>"
 
   if len(form_data) > 1:
     datafilename = form_data.getvalue('tagged_image') + ".json"
