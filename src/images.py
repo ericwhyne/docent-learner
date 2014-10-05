@@ -13,7 +13,7 @@ configfile = "/var/www/html/docent-learner/var/config/config.json"
 
 html_header = """
 <html>
-<title>Doccent Learner</title>
+<title>Docent Learner</title>
 <link rel="stylesheet" type="text/css" href="/docent-learner/static/style.css">
 
 """
