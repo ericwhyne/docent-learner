@@ -29,9 +29,13 @@ To add your own images and tags, ssh into the running Vagrant machine:
 vagrant ssh
 ```
 Then delete all files in /var/www/html/docent-learner/images and replace them with your own images.
-Modify this file and enter your own form questions:
+
+Update your questions via the administration interface. Upon provisioning the password to the admin interface is randomized and available in the following file. Each time you provision, the new password will be appended to the file. This password file is in the .gitignore and will never be committed to the github repository through normal pushes or pull requests.
 ```
-sudo vim /var/www/html/docent-learner/var/config/image_questions.form
+In the vagrant VM:
+vagrant@docent-learner:~$ cat /vagrant/admin-password.txt
+or on the host machine:
+eric@glamdring:~/workspace/docent-learner$ cat admin-password.txt 
 ```
 
 As your images become tagged, a json file will be written to disk for each image. To aggregate these results into a single json file, use the aggregate tool in the utils directory.
@@ -54,3 +58,5 @@ sudo apt-get -y install apache2
 sudo apt-get -y install libapache2-mod-wsgi
 ./deploy-Ubuntu.sh
 ```
+After deploying to the ubuntu system, the root interface will be at http://host-ip/docent-learner/ on the standard http port 80.
+
