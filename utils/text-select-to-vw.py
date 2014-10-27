@@ -20,7 +20,8 @@ def bigrams(input_list):
   return zip(input_list, input_list[1:])
 
 def print_features(s, cat):
-  features = cat + " | "
+  s = re.sub('\||:|\s', '', s) # Remove vertical bar, colon, space, and newline; unsupported by vw file format
+  features = ''
   # length of the string
   features += "l:" + str(len(s)) + ' '
   # number of numerical characters in the string
@@ -44,6 +45,7 @@ def print_features(s, cat):
   for char in s:
     chars += char + " "
   features += chars
+  features = cat + " | " + features
   print features 
 
 
