@@ -1,3 +1,5 @@
 .vagrant
 *.swp
 admin-password.txt
+tmp
+*.vw
