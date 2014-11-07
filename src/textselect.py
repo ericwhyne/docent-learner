@@ -48,17 +48,26 @@ def application(environ, start_response):
 
   text_file = open(textselectdir + currentfilename, 'r')
   text_to_tag = text_file.read()
-  form = """
-    Please highlight the subject of the text.<br>
-    <br>
+  form = """<center>
     <form action="/docent-learner/dl/textselect.py" method="post">
     <input type="hidden" name="tagged_text_filename" value="%s">
     <input type="hidden" name="selected_text" id='input'>
-    Notes:<textarea name="notes" cols="40" rows="5"></textarea><br>
-    <br><br>
-    <center><input type="submit" value="submit"></center>
+    <table border=0 cellpadding=40>
+      <tr>
+      <td>
+        <center><input type="submit" value="submit" style="width:100px; height:100px;"></center>
+      </td>
+      <td>
+        Notes:<br>
+        <textarea name="notes" cols="40" rows="5"></textarea><br>
+      </td>
+      <td>
+        Random text file shown is:<br> <b>%s</b><br>
+      </td>
+      </tr>
+    </table>
     </form>
-    <br> Random text file shown is:<br>  %s<br>
+    </center>
   """ % (currentfilename, currentfilename)
   data = "{ "
   for key in form_data:
@@ -71,7 +80,7 @@ def application(environ, start_response):
   if (files_left == 1 and len(form_data) > 1) or currentfilename == "" :
     html = html_header + "All the text has been tagged!</html>"
   else:
-    html = html_header + "<table class='rounded'><tr><td>" + textdisplay + "</td><td>" + form + "</td></tr></table</html>"
+    html = html_header + "<table class='rounded'><tr><td align=center>Please highlight the text of interest.<br>" + textdisplay + "</td></tr><tr><td>" + form + "</td></tr></table</html>"
 
   if len(form_data) > 1:
     datafilename = form_data.getvalue('tagged_text_filename') + ".json"
