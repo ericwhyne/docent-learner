@@ -2,11 +2,13 @@ import cgi
 import os
 import random
 import re
+import json
 
 #TODO: Enforce html entity encoding to mitigate XSS attacks
 
 textselectdir = "/var/www/html/docent-learner/textselect/"
 docentlearnerdir = "/var/www/docent-learner/dl/"
+configfile = "/var/www/html/docent-learner/var/config/config.json"
 
 html_header = """
 <html>
@@ -42,9 +44,14 @@ def application(environ, start_response):
   if currentfilename == "":
     return ["<html>All the content has been tagged!</html>"]
   form_data = cgi.FieldStorage(environ=environ, fp=environ['wsgi.input'])
-
   while currentfilename == form_data.getvalue('tagged_text_filename') and files_left > 1:
     (currentfilename,files_left) = random_text_file()
+
+  #config
+  config_file = open(configfile, 'r')
+  config = json.load(config_file)
+  config_file.close()
+  textinstructions = str(config['textinstructions'])
 
   text_file = open(textselectdir + currentfilename, 'r')
   text_to_tag = text_file.read()
@@ -80,8 +87,14 @@ def application(environ, start_response):
   if (files_left == 1 and len(form_data) > 1) or currentfilename == "" :
     html = html_header + "All the text has been tagged!</html>"
   else:
-    html = html_header + "<table class='rounded'><tr><td align=center>Please highlight the text of interest.<br>" + textdisplay + "</td></tr><tr><td>" + form + "</td></tr></table</html>"
-
+    html = html_header + "<table class='rounded'><tr><td align=center>" + textinstructions + "<br>" + textdisplay + "</td></tr><tr><td>" + form + "</td></tr></table</html>"
+  html += """
+    <table cellpadding='10'>
+      <tr>
+        <td><h5>Docent-learner | <a href='/docent-learner/dl/admin/admin.py'>Admin</a> this instance. | This tool is open source, get help or help make it better on <a href='https://github.com/ericwhyne/docent-learner'>github</a>.</h5></td>
+      </tr>
+    </table>
+  """
   if len(form_data) > 1:
     datafilename = form_data.getvalue('tagged_text_filename') + ".json"
     outfile = open(textselectdir + datafilename, "a")

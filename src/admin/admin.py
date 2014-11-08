@@ -14,7 +14,7 @@ def application(environ, start_response):
     config_records = json.load(config_file)
     config_file.close()
     config = config_records
-    message += str(config) + "<br>"
+    #message += str(config) + "<br>"
   except Exception, error:
     message += "Config file error: " + str(error) + "<br>"
 
@@ -29,43 +29,52 @@ def application(environ, start_response):
       #config_file.write(unicode(json.dumps(config,ensure_ascii=False)))
       json.dump(config, config_file)
       config_file.close()
-      message += "Writing config file.<br>"
-    except:
-      message += "Unable to write config file.<br>"
+      message += "Configuration updated.<br>"
+    except IOError as e:
+      message += "Unable to write config file.<br> %s" % str(e)
+
   imagequestions = ""
-  try: 
+  textinstructions = ""
+  try:
     imagequestions = str(config['imagequestions'])
+    textinstructions = str(config['textinstructions'])
   except:
     message += "Configuration was incomplete.<br>"
 
-  message += str(config)
+  #message += str(config)
 
-  html = "<html><h2>Docent Learner Administration</h2>"
-  form = "<form action=\"/docent-learner/dl/admin/admin.py\" method=\"post\">"
-  form += "<input type=\"hidden\" name=\"test\" value=\"bleh\">"
-  
-  form += """
-    <br><br>
-    Configure the <a href='/docent-learner/dl/images.py'>image tagger</a><br>
+  html = "<html><h1>Docent Learner Administration</h1>"
+  html += "<form action=\"/docent-learner/dl/admin/admin.py\" method=\"post\">"
+  html += "<input type=\"hidden\" name=\"test\" value=\"bleh\">"
+  html += """<hr><h2>Configure text select</h2>
+    <a href='/docent-learner/dl/textselect.py'>Go to text select.</a><br>
     <br>
-    Image Questions<br>
+    <textarea rows='3' cols='100' name='textinstructions'>%s</textarea>
+    """ % (textinstructions)
+
+  html += """
+    <br><br>
+    <hr><h2>Configure the image tagger</h2>
+    <a href='/docent-learner/dl/images.py'>Go to image tagger.</a><br>
+    <br>
+    Image Questions (in html form code)<br>
     <textarea rows='20' cols='100' name='imagequestions'>%s</textarea>
 
     """ % (imagequestions)
 
-  form += """
+  html += """
     <br><br>
     Image Mode: <br>
     <input type="radio" name="imagemode" value="single" checked> Capture only one observation per image <br>
-    <input type="radio" name="imagemode" value="multiple"> Capture multiple observations silently <br>
-    <input type="radio" name="imagemode" value="gamify"> Capture multiple observations and gamify <br>
+    <input type="radio" name="imagemode" value="multiple" disabled> Capture multiple observations silently <br>
+    <input type="radio" name="imagemode" value="gamify" disabled> Capture multiple observations and gamify <br>
     """
 
-  form += "<br><br><input type=\"submit\" value=\"Save\"><br>"
-  form += "</form>"
-  html += form
+  html += "<br><br><hr><input type=\"submit\" value=\"Save config\" style=\"width:200px; height:75px;\"><br>"
+  html += "</form>"
   html += "<br><br>"
-  html += "</html>" 
+  html += message
+  html += "</html>"
   start_response(status, response_headers)
 
   return [html]
