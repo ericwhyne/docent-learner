@@ -26,8 +26,9 @@ sudo cp -r src/* "$pydir"
 # Copy var files (stuff that changes during runtime)
 sudo mkdir -p "$basedir/var/"
 sudo cp -r var/* "$basedir/var/"
-sudo chmod a+rw "$basedir/var/config/"
 sudo chmod a+rw "/var/www/html/docent-learner/var/config/config.json"
+sudo chmod a+rw "/var/www/html/docent-learner/var/textselect-modelbuild.lock"
+sudo chmod a+rw "/var/www/html/docent-learner/var/textselect-model-build-status.txt"
 
 # Copy static files (stuff that should never change)
 sudo mkdir -p "$basedir/static/"

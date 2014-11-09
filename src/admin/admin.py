@@ -1,8 +1,10 @@
 import cgi
 import re
+import os
 import json
 
 configfile = "/var/www/html/docent-learner/var/config/config.json"
+textselectdir = "/var/www/html/docent-learner/textselect/"
 
 def application(environ, start_response):
   status = '200 OK'
@@ -33,6 +35,8 @@ def application(environ, start_response):
     except IOError as e:
       message += "Unable to write config file.<br> %s" % str(e)
 
+  textselect_jsonfiles = [f for f in os.listdir(textselectdir) if re.match(r'.*\.json$', f,  re.IGNORECASE)]
+  textselect_num_tagged = len(textselect_jsonfiles)
   imagequestions = ""
   textinstructions = ""
   try:
@@ -43,14 +47,18 @@ def application(environ, start_response):
 
   #message += str(config)
 
-  html = "<html><h1>Docent Learner Administration</h1>"
+  html = "<html><title>Docent Learner Administration</title><h1>Docent Learner Administration</h1>"
   html += "<form action=\"/docent-learner/dl/admin/admin.py\" method=\"post\">"
   html += "<input type=\"hidden\" name=\"test\" value=\"bleh\">"
   html += """<hr><h2>Configure text select</h2>
     <a href='/docent-learner/dl/textselect.py'>Go to text select.</a><br>
     <br>
     <textarea rows='3' cols='100' name='textinstructions'>%s</textarea>
-    """ % (textinstructions)
+    <br><br>
+    There are currently %s tagged examples.
+    <br><br>
+    <a href="/docent-learner/dl/admin/buildtextselectmodel.py">Build textselect model</a>
+    """ % (textinstructions, str(textselect_num_tagged))
 
   html += """
     <br><br>
