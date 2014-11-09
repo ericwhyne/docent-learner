@@ -1,31 +1,29 @@
 #!/usr/bin/python
+import cgi
 import subprocess
-import sys
-import nltk
-import re
-import docent_learner_vw as dlvw
+#import shlex
+import os
 
-infile = sys.stdin
-text = infile.read()
+textselectdir = "/var/www/html/docent-learner/textselect/"
+docentlearnerdir = "/var/www/docent-learner/dl/"
 
-textwords = text.split(' ')
-textbiwords = dlvw.bigrams(textwords)
-texttriwords = nltk.trigrams(textwords)
+def application(environ, start_response):
+  status = '200 OK'
+  response_headers = [('Content-type', 'text/html')]
+  start_response(status, response_headers)
+  form_data = cgi.FieldStorage(environ=environ, fp=environ['wsgi.input'])
+  data = {}
+  for key in form_data:
+    value = form_data.getvalue(key)
+    data[key] = value
 
-candidates = []
-for word in textwords:
-  candidates.append(dlvw.features(word, "0"))
-for biword in textbiwords:
-  s = biword[0] + '_' + biword[1]
-  dlvw.features(s,"0")
-for triword in texttriwords:
-  s = triword[0] + '_' + triword[1] + '_' + triword[2]
-  dlvw.features(s,"0")
+  html = data['text']
+  
+  # http://127.0.0.1:8080/docent-learner/dl/textselect-tag.py?text=hello
+  my_cmd = 'echo earth'
+  p = subprocess.Popen(my_cmd, shell=True, stdout=subprocess.PIPE)
+  out = p.stdout.read()
 
-for candidate in candidates:
-  print candidate
-  #TODO put the actual vw command in this placeholder
-  predict_command = "echo \"" + candidate + "\" | vw -i ../tmp/text-select-svm.model -p /dev/stdout --quiet"
-  out = subprocess.check_output(predict_command.split(' '))
-  print predict_command.split(' ')
-  print out
+  html += str(out)
+
+  return [html]

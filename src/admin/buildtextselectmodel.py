@@ -23,7 +23,7 @@ def write_lock(val):
     lock_file.close()
   except Exception, error:
     return "Lock file error: " + str(error)
-  return "Starting build"
+  return ''
 
 def build_process():
   predict_command = "/var/www/docent-learner/admin/textselect-build-model-script.sh"
@@ -51,35 +51,69 @@ def application(environ, start_response):
   # Read lock file
   lock = read_lock()
 
-  if re.match('^1.*', lock): # If file is locked, show status
-    message += "Build is in progress"
-    # Javascript read lock file, if closed show animated icon, otherwise show animated icon
-    # Javascript read status and print in window
-
-  elif re.match('^0.*', lock): # if file is unlocked, spawn build and reload page
+  if re.match('^1.*', lock): # If file is locked, do nothing but show status
+    #TODO maybe do some error checking here.
+    message += ""
+  elif re.match('^0.*', lock): # If file is unlocked, spawn build
     message += write_lock('1')
     p = threading.Thread(target=build_process)
     p.start()
 
-  html = "<html><title>Docent Learner Administration</title><h1>Docent Learner building text select model</h1>"
+  html = """<html><title>Docent Learner Administration</title>
+    <h1>Docent Learner - text select model build</h1>
+    <a href="admin.py">Back to admin.</a><br>
+    <a href="/docent-learner/dl/textselect.py">Text Select interface</a><br>
+    <br>
+    """
 
-  html += "<pre id='status'></pre>"
+  html += "<div id='lock'></div><br><pre id='status'></pre>"
 
-#TODO: This is terribly broken and I'm tired so it's just getting worse. I quit for the night.
   html += """
   <script>
-
-  var req = new XMLHttpRequest();
-  req.onreadystatechange = displayupdate();
-  req.open('GET', '/docent-learner/var/textselect-model-build-status.txt');
-  req.send();
-
-  document.getElementById('status').textContent = req.responseText;
+  var lock = '1';
+  function statusListner(){
+    if(this.readyState==4){
+      document.getElementById('status').textContent = this.responseText;
+      console.log("status request complete");
+      if(lock == '1'){
+        setTimeout(getStatus(), 1000);
+      }
+    }
+  }
+    function getStatus(){
+    var req = new XMLHttpRequest();
+    req.onreadystatechange = statusListner;
+    req.open('GET', '/docent-learner/var/textselect-model-build-status.txt');
+    req.send();
+    console.log("status request sent");
+  }
+  function lockListner(){
+    if(this.readyState==4){
+      lock = this.responseText;
+      if(lock == '1'){
+        document.getElementById('lock').textContent = "The model is being built.";
+      }else{
+        document.getElementById('lock').textContent = "The model is complete.";
+      }
+      console.log("lock request complete");
+      console.log(lock);
+      if(lock == '1'){
+        setTimeout(getLock(), 1000);
+      }
+    }
+  }
+  function getLock(){
+    var req = new XMLHttpRequest();
+    req.onreadystatechange = lockListner;
+    req.open('GET', '/docent-learner/var/textselect-modelbuild.lock');
+    req.send();
+    console.log("lock request sent");
+  }
+  window.onload = getStatus();
+  window.onload = getLock();
 
   </script>
   """
-
-  html += "<br>Lock file contents:" + str(lock)
   html += message
   html += "</html>"
   start_response(status, response_headers)
