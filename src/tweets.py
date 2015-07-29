@@ -1,8 +1,11 @@
+# -*- coding: utf-8 -*-
 import cgi
 import os
 import random
 import re
 import json
+import string
+import pprint
 
 #TODO: Enforce html entity encoding to mitigate XSS attacks
 
@@ -62,9 +65,7 @@ def application(environ, start_response):
 
   content_file_contents = open(filesdir + filename,'r').read()
   content_dat = json.loads(content_file_contents)
-  content = ""
-  for key in content_dat.keys():
-    content += str(key) + ":" + str(content_dat[key]) + "<br>"
+  content = '<pre>' + str(pprint.pformat(content_dat)) + '</pre>'
 
   content_display = "<br><center><table class='imagetable' cellpadding='60'><tr><td>" + content + "</td></tr></table><br><br></center>"
 
