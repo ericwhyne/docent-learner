@@ -12,10 +12,12 @@ arg1=$1
 
 sudo mkdir -p $basedir
 
+sudo mkdir "$basedir/boldtext"
+sudo chmod a+rw "$basedir/boldtext"
+
 sudo mkdir -p "$basedir/$imagesdir"
 sudo cp images/* "$basedir/$imagesdir"
 sudo chmod a+rw "$basedir/$imagesdir"
-
 
 sudo mkdir -p "$basedir/$tweetsdir"
 sudo cp tweets/* "$basedir/$tweetsdir"
