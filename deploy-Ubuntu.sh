@@ -5,6 +5,7 @@
 
 basedir="/var/www/html/docent-learner"
 imagesdir="images"
+tweetsdir="tweets"
 textselectdir="textselect"
 pydir="/var/www/docent-learner/"
 arg1=$1
@@ -14,6 +15,12 @@ sudo mkdir -p $basedir
 sudo mkdir -p "$basedir/$imagesdir"
 sudo cp images/* "$basedir/$imagesdir"
 sudo chmod a+rw "$basedir/$imagesdir"
+
+
+sudo mkdir -p "$basedir/$tweetsdir"
+sudo cp tweets/* "$basedir/$tweetsdir"
+sudo chmod a+rw "$basedir/$tweetsdir"
+
 
 sudo mkdir -p "$basedir/$textselectdir"
 sudo cp textselect/* "$basedir/$textselectdir"

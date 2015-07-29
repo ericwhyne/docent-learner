@@ -38,9 +38,11 @@ def application(environ, start_response):
   textselect_jsonfiles = [f for f in os.listdir(textselectdir) if re.match(r'.*\.json$', f,  re.IGNORECASE)]
   textselect_num_tagged = len(textselect_jsonfiles)
   imagequestions = ""
+  tweetquestions = ""
   textinstructions = ""
   try:
     imagequestions = str(config['imagequestions'])
+    tweetquestions = str(config['tweetquestions'])
     textinstructions = str(config['textinstructions'])
   except:
     message += "Configuration was incomplete.<br>"
@@ -76,6 +78,25 @@ def application(environ, start_response):
     <input type="radio" name="imagemode" value="single" checked> Capture only one observation per image <br>
     <input type="radio" name="imagemode" value="multiple" disabled> Capture multiple observations silently <br>
     <input type="radio" name="imagemode" value="gamify" disabled> Capture multiple observations and gamify <br>
+    """
+
+
+  html += """
+    <br><br>
+    <hr><h2>Configure the tweet tagger</h2>
+    <a href='/docent-learner/dl/tweets.py'>Go to tweet tagger.</a><br>
+    <br>
+    Tweet Questions (in html form code)<br>
+    <textarea rows='20' cols='100' name='tweetquestions'>%s</textarea>
+
+    """ % (tweetquestions)
+
+  html += """
+    <br><br>
+    Tweet Mode: <br>
+    <input type="radio" name="tweetmode" value="single" checked> Capture only one observation per image <br>
+    <input type="radio" name="tweetmode" value="multiple" disabled> Capture multiple observations silently <br>
+    <input type="radio" name="tweetmode" value="gamify" disabled> Capture multiple observations and gamify <br>
     """
 
   html += "<br><br><hr><input type=\"submit\" value=\"Save config\" style=\"width:200px; height:75px;\"><br>"
