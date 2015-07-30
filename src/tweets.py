@@ -49,15 +49,19 @@ def application(environ, start_response):
   config_file.close()
   form_questions = str(config['tweetquestions'])
 
+  content_file_contents = open(filesdir + filename,'r').read()
+  content_dat = json.loads(content_file_contents)
+
   form = """
     Please help tag this tweet.<br><br>
     <form action="/docent-learner/dl/tweets.py" method="post">
     <input type="hidden" name="tagged_file" value="%s">
+    <input type="hidden" name="tweet_str_id" value="%s">
     %s
     <input type="submit" value="Submit">
     </form>
     <br> Random tweet shown is:<br>  %s<br>
-  """ % (filename, form_questions, filename)
+  """ % (filename, content_dat['id_str'].encode('utf-8'), form_questions, filename)
   data = "{ "
   for key in form_data:
     value = form_data.getvalue(key)
@@ -65,8 +69,6 @@ def application(environ, start_response):
   data = data[:-1]
   data += "}\n"
 
-  content_file_contents = open(filesdir + filename,'r').read()
-  content_dat = json.loads(content_file_contents)
   #content = '<pre>' + str(pprint.pformat(content_dat)) + '</pre>'
   tweet = content_dat['text'].encode('utf-8')
   created_at = content_dat['created_at'].encode('utf-8')
