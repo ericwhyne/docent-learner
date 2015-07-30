@@ -6,6 +6,8 @@ import re
 import json
 import string
 import pprint
+import unicodedata
+
 
 #TODO: Enforce html entity encoding to mitigate XSS attacks
 
@@ -32,7 +34,7 @@ def random_file():
 
 def application(environ, start_response):
   status = '200 OK'
-  response_headers = [('Content-type', 'text/html')]
+  response_headers = [('Content-type', 'text/html; charset=utf-8')]
   start_response(status, response_headers)
   (filename,files_left) = random_file()
   if filename == "":
@@ -65,9 +67,13 @@ def application(environ, start_response):
 
   content_file_contents = open(filesdir + filename,'r').read()
   content_dat = json.loads(content_file_contents)
-  content = '<pre>' + str(pprint.pformat(content_dat)) + '</pre>'
+  #content = '<pre>' + str(pprint.pformat(content_dat)) + '</pre>'
+  tweet = content_dat['text'].encode('utf-8')
+  created_at = content_dat['created_at'].encode('utf-8')
+  link = "<a href=\"https://twitter.com/" + content_dat['user']['screen_name'].encode('utf-8') + "/status/" + content_dat['id_str'].encode('utf-8') + "\">view on Twitter</a>"
+  #content = unicodedata.normalize('NFKD', title).encode('ascii','ignore')
 
-  content_display = "<br><center><table class='imagetable' cellpadding='60'><tr><td>" + content + "</td></tr></table><br><br></center>"
+  content_display = "<br><center><table class='imagetable' cellpadding='60'><tr><td>" + tweet + "<br><br>Created at: " + created_at + "<br>" + link + "</td></tr></table><br><br></center>"
 
   html = ""
   if (files_left == 1 and len(form_data) > 1) or filename == "" :

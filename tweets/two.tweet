@@ -1,5 +1,99 @@
 {
-  "created_at": "Tue Feb 18 01:14:00 +0000 2014",
-  "id": 234507407056789,
-  "text": "I can't imagine what it's like to have suicidal thoughts."
-}
+    "created_at": "Wed Jul 22 15:38:05 +0000 2015",
+    "id": 623879696766398500,
+    "id_str": "623879696766398464",
+    "text": "Well that escalated quickly...\nhttp://t.co/LMmD68Q52w",
+    "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+    "truncated": false,
+    "in_reply_to_status_id": null,
+    "in_reply_to_status_id_str": null,
+    "in_reply_to_user_id": null,
+    "in_reply_to_user_id_str": null,
+    "in_reply_to_screen_name": null,
+    "user": {
+      "id": 61173077,
+      "id_str": "61173077",
+      "name": "Eric Whyne",
+      "screen_name": "ericwhyne",
+      "location": "",
+      "description": "",
+      "url": "https://t.co/snm48vlkev",
+      "entities": {
+        "url": {
+          "urls": [
+            {
+              "url": "https://t.co/snm48vlkev",
+              "expanded_url": "https://github.com/ericwhyne/",
+              "display_url": "github.com/ericwhyne/",
+              "indices": [
+                0,
+                23
+              ]
+            }
+          ]
+        },
+        "description": {
+          "urls": []
+        }
+      },
+      "protected": false,
+      "followers_count": 91,
+      "friends_count": 153,
+      "listed_count": 4,
+      "created_at": "Wed Jul 29 11:31:37 +0000 2009",
+      "favourites_count": 16,
+      "utc_offset": null,
+      "time_zone": null,
+      "geo_enabled": false,
+      "verified": false,
+      "statuses_count": 270,
+      "lang": "en",
+      "contributors_enabled": false,
+      "is_translator": false,
+      "is_translation_enabled": false,
+      "profile_background_color": "C0DEED",
+      "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
+      "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
+      "profile_background_tile": false,
+      "profile_image_url": "http://pbs.twimg.com/profile_images/1516307981/ericmarty_normal.jpg",
+      "profile_image_url_https": "https://pbs.twimg.com/profile_images/1516307981/ericmarty_normal.jpg",
+      "profile_link_color": "0084B4",
+      "profile_sidebar_border_color": "C0DEED",
+      "profile_sidebar_fill_color": "DDEEF6",
+      "profile_text_color": "333333",
+      "profile_use_background_image": true,
+      "has_extended_profile": false,
+      "default_profile": true,
+      "default_profile_image": false,
+      "following": false,
+      "follow_request_sent": false,
+      "notifications": false
+    },
+    "geo": null,
+    "coordinates": null,
+    "place": null,
+    "contributors": null,
+    "is_quote_status": false,
+    "retweet_count": 0,
+    "favorite_count": 0,
+    "entities": {
+      "hashtags": [],
+      "symbols": [],
+      "user_mentions": [],
+      "urls": [
+        {
+          "url": "http://t.co/LMmD68Q52w",
+          "expanded_url": "http://www.wired.com/2015/07/patch-chrysler-vehicle-now-wireless-hacking-technique/",
+          "display_url": "wired.com/2015/07/patch-…",
+          "indices": [
+            31,
+            53
+          ]
+        }
+      ]
+    },
+    "favorited": false,
+    "retweeted": false,
+    "possibly_sensitive": false,
+    "lang": "en"
+  }
