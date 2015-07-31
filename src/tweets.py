@@ -42,6 +42,14 @@ def application(environ, start_response):
   form_data = cgi.FieldStorage(environ=environ, fp=environ['wsgi.input'])
   while filename == form_data.getvalue('tagged_file') and files_left > 1:
     (filename,files_left) = random_file()
+  data = {}
+  for key in form_data: # convert the FieldStorage to dict
+      data[key] = form_data.getvalue(key)
+  if len(form_data) > 1:
+    datafilename = form_data.getvalue('tagged_file') + ".json"
+    outfile = open(filesdir + datafilename, "a")
+    data['ip'] = environ['REMOTE_ADDR']
+    outfile.write(str(pprint.pformat(data)))
 
 
   config_file = open(configfile, 'r')
@@ -62,12 +70,12 @@ def application(environ, start_response):
     </form>
     <br> Random tweet shown is:<br>  %s<br>
   """ % (filename, content_dat['id_str'].encode('utf-8'), form_questions, filename)
-  data = "{ "
-  for key in form_data:
-    value = form_data.getvalue(key)
-    data += "\"" + key + "\":\"" + value + "\","
-  data = data[:-1]
-  data += "}\n"
+#  data = "{"
+#  for key in form_data:
+#    value = form_data.getvalue(key)
+#    data += "\"" + key + "\":\"" + value + "\","
+#  data = data[:-1]
+#  data += "}\n"
 
   #content = '<pre>' + str(pprint.pformat(content_dat)) + '</pre>'
   tweet = content_dat['text'].encode('utf-8')
@@ -91,12 +99,6 @@ def application(environ, start_response):
     </table>
   """
 
-
   html += "</html>"
-
-  if len(form_data) > 1:
-    datafilename = form_data.getvalue('tagged_file') + ".json"
-    outfile = open(filesdir + datafilename, "a")
-    outfile.write(data)
 
   return [html]
