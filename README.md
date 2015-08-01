@@ -1,5 +1,6 @@
 docent-learner
 ==============
+![schoolmaster](https://raw.githubusercontent.com/ericwhyne/docent-learner/master/static/AdriaenVanOstade-TheSchoolMaster.png)
 
 Docent-learner is a web interface which statelessly and randomly traverses digital collections of images or text and asks users to answer questions or tag the content. This software was designed for quickly creating domain specific training sets for machine learning tasks. It was written in a few hours during a DARPA hackathon when it was discovered that there was no simple and easy free software that did this. The goal of this project is to make deploying functionality for creating training data sets simple, scalable, and provide a clutter-free interface that allows for fast tagging by many users.
 
