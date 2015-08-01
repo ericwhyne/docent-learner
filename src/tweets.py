@@ -51,7 +51,8 @@ def application(environ, start_response):
     datafilename = form_data.getvalue('tagged_file') + ".json"
     outfile = open(filesdir + datafilename, "a")
     data['ip'] = environ['REMOTE_ADDR']
-    outfile.write(str(pprint.pformat(data)))
+    #outfile.write(str(pprint.pformat(data)))
+    outfile.write(json.dumps(data))
 
 
   config_file = open(configfile, 'r')
