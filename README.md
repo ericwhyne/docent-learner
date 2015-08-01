@@ -2,18 +2,22 @@ docent-learner
 ==============
 ![schoolmaster](https://raw.githubusercontent.com/ericwhyne/docent-learner/master/static/AdriaenVanOstade-TheSchoolMaster.png)
 
-Docent-learner is a web interface which statelessly and randomly traverses digital collections of images or text and asks users to answer questions or tag the content. This software was designed for quickly creating domain specific training sets for machine learning tasks. It was written in a few hours during a DARPA hackathon when it was discovered that there was no simple and easy free software that did this. The goal of this project is to make deploying functionality for creating training data sets simple, scalable, and provide a clutter-free interface that allows for fast tagging by many users.
+Docent-learner is a web interface which statelessly and randomly traverses digital collections of images, text, or other content and asks users to answer questions or tag the content. This software was designed for quickly creating domain specific training sets for machine learning tasks. It was written in a few hours during a DARPA hackathon and has been iteratively improved as it's applied to different problem sets. The goal of this project is to make deploying functionality for creating training data sets simple, scalable, and provide a clutter-free interface that allows for fast tagging of big data by many users.
 
 * Docent - _A person who acts as a guide, typically on a voluntary basis, in a museum, art gallery, or zoo._
 * Learner - _A person who is learning a subject or skill._
 
-Capabilities and road map/TODO:
-- Image tagging is currently supported. 
-- A text selection interface is under development and mostly complete.
-- Integration with AWS S3 and HBase/Accumulo is planned.
-- The ability to refine and train machine learning models (rather than just tag data) is also potentially a part of this project.
-- Eventually all capabilities should be controlled through the web interface. Rudimentary data binding for configuration modification is mostly implemented.
-- At this time there is no authentication or security safety features since during the hackathon we deployed it on an internal network.   
+Capabilities (mostly integrated):
+- Supports arbitrarily large numbers of tagging users simultaneously
+- Cookies to track tagger's user agent (aka browser) and session
+- Mechanical Turk integration
+- Image tagging
+- Tweet tagging
+- Text selection
+
+Roadmap:
+- The ability to refine and train machine learning models to make suggesions that might help taggers (allow the docent to learn as it goes). This is partially working and uses Vowpal Wabbit. 
+- Gamification of tagging by setting up points system or rewards to emotionally and competitively involve taggers.
 
 The easiest way to get started with Docent Learner is to use Vagrant. For more information on Vagrant go to https://www.vagrantup.com/
 
@@ -23,7 +27,7 @@ git clone https://github.com/ericwhyne/docent-learner.git
 cd docent-learner
 vagrant up
 ```
-Then point your browser at your computer: http://127.0.0.1:8080/docent-learner/dl/images.py
+Then point your browser here: http://127.0.0.1:8081/docent-learner/
 
 To add your own images and tags, ssh into the running Vagrant machine:
 ```
