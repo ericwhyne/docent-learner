@@ -19,7 +19,9 @@ html_header = """
 <html>
 <title>Docent Learner</title>
 <link rel="stylesheet" type="text/css" href="/docent-learner/static/style.css">
-
+<head>
+</head>
+<body>
 """
 
 def random_file():
@@ -63,8 +65,13 @@ def application(environ, start_response):
   form = """
     Please help tag this tweet.<br><br>
     <form action="/docent-learner/dl/tweets.py" method="post">
+    Your name: <input type='text' name='tagger_name' id='tagger_name' onblur='setname()'><br>
+    <br>
+    <br>
     <input type="hidden" name="tagged_file" value="%s">
     <input type="hidden" name="tweet_str_id" value="%s">
+    <input type="hidden" name="user_agent_id" id="user_agent_id" value="">
+    <input type="hidden" name="session_id" id="session_id" value="">
     %s
     <input type="submit" value="Submit">
     </form>
@@ -99,6 +106,6 @@ def application(environ, start_response):
     </table>
   """
 
-  html += "</html>"
+  html += "<script src='/docent-learner/static/metrics.js'></script></body></html>"
 
   return [html]
