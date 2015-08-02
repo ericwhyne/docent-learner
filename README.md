@@ -68,5 +68,5 @@ After deploying to the ubuntu system, the root interface will be at http://host-
 
 ### Deploy with Docker
 ```
-docker run -d -p  80:8081 mbartoli/docent-learner
+docker run -d -p 80:80 mbartoli/docent-learner
 ```

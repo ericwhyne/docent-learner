@@ -14,6 +14,10 @@ RUN apt-get -y install \
 	apache2-utils
 RUN pip install nltk
 
+WORKDIR /home
+RUN git clone https://github.com/mbartoli/docent-learner
+WORKDIR /home/docent-learner
+
 # create admin account
 ENV adminpass='admin'
 ENV adminuname='admin'
@@ -27,36 +31,40 @@ ENV tweetsdir="tweets"
 ENV textselectdir="textselect"
 ENV pydir="/var/www/docent-learner/"
 
-#RUN mkdir -p ${basedir}
-WORKDIR /var/www/html/
-
-RUN git clone https://github.com/mbartoli/docent-learner
+RUN mkdir -p ${basedir}
 
 RUN mkdir "${basedir}/boldtext"
 RUN chmod a+rw "${basedir}/boldtext"
 
-WORKDIR /var/www/html/docent-learner
-
-#RUN mkdir -p "${basedir}/${imagesdir}"
-#RUN cp images/* "${basedir}/${imagesdir}"
+RUN mkdir -p "${basedir}/${imagesdir}"
+RUN cp images/* "${basedir}/${imagesdir}"
 RUN chmod a+rw "${basedir}/${imagesdir}"
 
-#RUN mkdir -p "${basedir}/${tweetsdir}"
-#RUN cp tweets/* "${basedir}/${tweetsdir}"
+RUN mkdir -p "${basedir}/${tweetsdir}"
+RUN cp tweets/* "${basedir}/${tweetsdir}"
 RUN chmod a+rw "${basedir}/${tweetsdir}"
 
-#RUN mkdir -p "${basedir}/${textselectdir}"
-#RUN cp textselect/* "${basedir}/${textselectdir}"
+RUN mkdir -p "${basedir}/${textselectdir}"
+RUN cp textselect/* "${basedir}/${textselectdir}"
 RUN chmod a+rw "${basedir}/${textselectdir}"
 
 # Copy python source
 RUN mkdir -p "${pydir}"
 RUN cp -r src/* "${pydir}"
 
+RUN mkdir -p "${basedir}/var/"
+RUN cp -r var/* "${basedir}/var/"
 RUN chmod a+rw "/var/www/html/docent-learner/var/config/config.json"
 RUN chmod a+rw "/var/www/html/docent-learner/var/textselect-modelbuild.lock"
 RUN chmod a+rw "/var/www/html/docent-learner/var/textselect-model-build-status.txt"
 
-RUN cp sites-enabled/docent-learner-apache.conf /etc/apache2/sites-enabled/
-RUN service apache2 restart
+RUN mkdir -p "${basedir}/static/"
+RUN cp -r static/* "${basedir}/static/"
 
+RUN cp -r html/* "${basedir}"
+
+
+RUN echo 'ServerName localhost' >> /etc/apache2/conf.d
+
+RUN cp sites-enabled/docent-learner-apache.conf /etc/apache2/sites-enabled/
+EXPOSE 80
