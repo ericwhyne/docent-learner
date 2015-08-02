@@ -65,3 +65,16 @@ sudo apt-get -y install libapache2-mod-wsgi
 ```
 After deploying to the ubuntu system, the root interface will be at http://host-ip/docent-learner/ on the standard http port 80.
 
+
+### Deploy with Docker
+Enter the docker container
+```
+docker run -t -p 80:80 mbartoli/docent-learner /bin/bash
+```
+Restart apache2  
+```
+sudo service apache2 restart
+```  
+docent-learner will now be running on `127.0.0.1/docent-learner` on your host machine 
+
+TODO restart apache2 without having to interact with the docker container
