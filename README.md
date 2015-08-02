@@ -67,6 +67,14 @@ After deploying to the ubuntu system, the root interface will be at http://host-
 
 
 ### Deploy with Docker
+Enter the docker container
 ```
-docker run -d -p 80:80 mbartoli/docent-learner
+docker run -t -p 80:80 mbartoli/docent-learner /bin/bash
 ```
+Restart apache2  
+```
+sudo service apache2 restart
+```  
+docent-learner will now be running on `127.0.0.1/docent-learner` on your host machine 
+
+TODO restart apache2 without having to interact with the docker container
